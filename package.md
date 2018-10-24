@@ -1,6 +1,6 @@
 # 收集平时用到的各种包、插件、loader
 
-## 第三方包
+## **第三方包**
 
 ### [`chalk`](https://github.com/chalk/chalk)
 
@@ -22,13 +22,26 @@ console.log(warning('Warning!'));
 
 ### [`semver`](https://github.com/npm/node-semver)
 
-一个用于版本比较的包
+先科普：`npm` 采用`语义版本`管理软件包。所谓语义版本，就是指版本号为`a.b.c`的形式，其中a是大版本号，b是小版本号，c是补丁号。
 
-### [`webpack-merge`](https://github.com/survivejs/webpack-merge)
+再介绍：semver，semantic versioner，正是一个对语义版本处理的包。
 
-webpack-merge提供了一个merge连接数组并合并创建新对象的对象的函数。如果遇到函数，它将执行它们，通过算法运行结果，然后再次将返回的值包装在函数中。
+~~~ js
+const semver = require('semver')
 
-这种行为在配置webpack时特别有用，尽管它有超出它的用途。无论何时需要合并配置对象，webpack-merge都可以派上用场。
+// 返回解析后的版本，如果无效，则返回null
+semver.valid('1.2.3') // '1.2.3'
+semver.valid('a.b.c') // null
+semver.clean('  =v1.2.3   ') // '1.2.3'
+// 是否满足条件
+semver.satisfies('1.2.3', '1.x || >=2.5.0 || 5.0.0 - 7.2.3') // true
+// 比较
+semver.gt('1.2.3', '9.8.7') // false
+semver.lt('1.2.3', '9.8.7') // true
+// 将字符串强制转换为semver
+semver.valid(semver.coerce('v2')) // '2.0.0'
+semver.valid(semver.coerce('42.6.7.9.3-alpha')) // '42.6.7'
+~~~
 
 ### [`opn`](https://github.com/sindresorhus/opn)
 
@@ -50,11 +63,83 @@ opn('http://sindresorhus.com', {app: 'firefox'});
 
 // 指定要打开的应用程序，带参数
 opn('http://sindresorhus.com', {app: ['google chrome', '--incognito']});
+
+// google chrome on macOS
+// google-chrome on Linux
+// chrome on Windows
+
 ~~~
+
+### [`webpack-merge`](https://github.com/survivejs/webpack-merge)
+
+webpack-merge提供了一个merge连接数组并合并创建新对象的对象的函数。如果遇到函数，它将执行它们，通过算法运行结果，然后再次将返回的值包装在函数中。
+
+这种行为在配置webpack时特别有用，尽管它有超出它的用途。无论何时需要合并配置对象，webpack-merge都可以派上用场。
+
+### [`ora`](https://github.com/sindresorhus/ora)
+
+优雅的终端微调器，一个用于命令行的loadding。
+
+~~~ js
+const ora = require('ora');
+
+const spinner = ora('Loading unicorns').start();
+
+setTimeout(() => {
+    spinner.color = 'yellow';
+    spinner.text = 'Loading rainbows';
+    spinner.succeed("succeed")
+    spinner.fail("fail")
+    spinner.warn("warn")
+    spinner.info("info")
+}, 1000);
+~~~
+
+### [`shelljs`](https://github.com/shelljs/shelljs)
+
+Node.js的Unix shell命令
+
+~~~ js
+var shell = require('shelljs');
+
+// 删除文件 -r 递归 -f强制
+shell.rm('-rf', '/tmp/*');
+shell.rm('some_file.txt', 'another_file.txt');
+shell.rm(['some_file.txt', 'another_file.txt']);
+
+// 创建文件夹 -p 完整路径（并在必要时创建中间目录）
+shell.mkdir('-p', '/tmp/a/b/c/d', '/tmp/e/f/g');
+shell.mkdir('-p', ['/tmp/a/b/c/d', '/tmp/e/f/g']);
+
+// 复制文件
+shell.cp('file1', 'dir1');
+shell.cp('-R', 'path/to/dir/', '~/newCopy/');
+shell.cp('-Rf', '/tmp/*', '/usr/local/*', '/home/tmp');
+shell.cp('-Rf', ['/tmp/*', '/usr/local/*'], '/home/tmp');
+
+// 是否禁止echo()输出，默认false
+shell.config.silent = true;
+~~~
+
+### babel-polyfill
+
+### fetch-ie8
+
+### webpack
 
 ### express
 
-### webpack
+## **loader**
+
+### ts-loader
+
+### babel-loader
+
+### url-loader
+
+## **插件**
+
+### html-webpack-plugin
 
 ### webpack.DefinePlugin
 
@@ -64,31 +149,7 @@ opn('http://sindresorhus.com', {app: ['google chrome', '--incognito']});
 
 ### webpack.BannerPlugin
 
-### babel-polyfill
-
-### fetch-ie8
-
-### ts-loader
-
-### babel-loader
-
-### url-loader
-
-### http-proxy-middleware
-
-### webpack-dev-middleware
-
-### webpack-hot-middleware
-
-### connect-history-api-fallback
-
-### html-webpack-plugin
-
 ### friendly-errors-webpack-plugin
-
-### ora
-
-### shelljs
 
 ## Nodejs包
 
@@ -96,3 +157,14 @@ opn('http://sindresorhus.com', {app: ['google chrome', '--incognito']});
 
 ### path
 
+## **中间件**
+
+### [`connect-history-api-fallback`](https://github.com/bripkens/connect-history-api-fallback)
+
+通过指定索引页面代理请求的中间件，对使用HTML5 History API的单页应用程序很有用。
+
+### http-proxy-middleware
+
+### webpack-dev-middleware
+
+### webpack-hot-middleware

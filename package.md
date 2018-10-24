@@ -70,12 +70,6 @@ opn('http://sindresorhus.com', {app: ['google chrome', '--incognito']});
 
 ~~~
 
-### [`webpack-merge`](https://github.com/survivejs/webpack-merge)
-
-webpack-merge提供了一个merge连接数组并合并创建新对象的对象的函数。如果遇到函数，它将执行它们，通过算法运行结果，然后再次将返回的值包装在函数中。
-
-这种行为在配置webpack时特别有用，尽管它有超出它的用途。无论何时需要合并配置对象，webpack-merge都可以派上用场。
-
 ### [`ora`](https://github.com/sindresorhus/ora)
 
 优雅的终端微调器，一个用于命令行的loadding。
@@ -121,50 +115,36 @@ shell.cp('-Rf', ['/tmp/*', '/usr/local/*'], '/home/tmp');
 shell.config.silent = true;
 ~~~
 
-### babel-polyfill
+### [`babel-polyfill`](https://github.com/babel/babel/tree/master/packages/babel-polyfill)
 
-### fetch-ie8
+ie9和一些低版本的高级浏览器对es6新语法并不支持，所以需要引入`babel-polyfill`。
 
-### webpack
+~~~ js
+// 第一种
+require("babel-polyfill");
 
-### express
+// 第二种
+import "babel-polyfill";
 
-## **loader**
+// 第三种
+module.exports = {
+　　entry: ["babel-polyfill", "./app/js"]
+};
+// 关于兼容的问题，这并不是最优解决方案，还需要再研究babel才行。
+~~~
 
-### ts-loader
+### [`fetch-ie8`](https://github.com/camsong/fetch-ie8)
 
-### babel-loader
++ fetch兼容性，支持IE10+、谷歌、火狐等
++ 引入一个额外的补丁es6-promise.js可以使它很好的支持IE9以上的版本
++ `fetch-ie8`就是为了解决window.fetch在IE8的兼容问题
 
-### url-loader
+### [`webpack-merge`](https://github.com/survivejs/webpack-merge)
 
-## **插件**
+`webpack-merge`提供了一个`merge`连接数组并合并创建新对象的对象的函数。如果遇到函数，它将执行它们，通过算法运行结果，然后再次将返回的值包装在函数中。
 
-### html-webpack-plugin
-
-### webpack.DefinePlugin
-
-### webpack.HotModuleReplacementPlugin
-
-### webpack.NoEmitOnErrorsPlugin
-
-### webpack.BannerPlugin
-
-### friendly-errors-webpack-plugin
-
-## Nodejs包
-
-### child_process
-
-### path
-
-## **中间件**
+这种行为在配置`webpack`时特别有用，尽管它有超出它的用途。无论何时需要合并配置对象，`webpack-merge`都可以派上用场。
 
 ### [`connect-history-api-fallback`](https://github.com/bripkens/connect-history-api-fallback)
 
 通过指定索引页面代理请求的中间件，对使用HTML5 History API的单页应用程序很有用。
-
-### http-proxy-middleware
-
-### webpack-dev-middleware
-
-### webpack-hot-middleware
